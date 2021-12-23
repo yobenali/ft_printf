@@ -6,7 +6,7 @@
 /*   By: yobenali <yobenali@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 14:53:19 by yobenali          #+#    #+#             */
-/*   Updated: 2021/12/14 11:39:47 by yobenali         ###   ########.fr       */
+/*   Updated: 2021/12/15 16:53:06 by yobenali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,37 @@
 int	ft_putchar(char c)
 {
 	write(1, &c, 1);
-	return (1);	
+	return (1);
 }
 
-int	print_type(va_list arg, char c)
+void	print_type(va_list arg, char c, int *count)
 {
-	int	count;
-
-	count = 0;
 	if (c == 'c')
-		count += ft_putchar(va_arg(arg, int));
+		*count += ft_putchar(va_arg(arg, int));
 	else if (c == 's')
-		count += ft_putstr(va_arg(arg, char *));
+		*count += ft_putstr(va_arg(arg, char *));
 	else if (c == '%')
-		count += ft_putchar('%');
+		*count += ft_putchar('%');
 	else if (c == 'p')
 	{
-		count += ft_putstr("0x");
-		ft_putnbr_base(va_arg(arg, unsigned long), "0123456789abcdef", &count);
+		*count += ft_putstr("0x");
+		ft_putnbr_base(va_arg(arg, unsigned long), "0123456789abcdef", count);
 	}
 	else if (c == 'd' || c == 'i')
-		ft_putnbr(va_arg(arg, int), &count);
+		ft_putnbr(va_arg(arg, int), count);
 	else if (c == 'u')
-		ft_putnbr_base2(va_arg(arg, unsigned int), "0123456789", &count);
+		ft_putnbr_base2(va_arg(arg, unsigned int), "0123456789", count);
 	else if (c == 'x')
-		ft_putnbr_base2(va_arg(arg, unsigned int), "0123456789abcdef", &count);
+		ft_putnbr_base2(va_arg(arg, unsigned int), "0123456789abcdef", count);
 	else if (c == 'X')
-		ft_putnbr_base2(va_arg(arg, unsigned int), "0123456789ABCDEF", &count);
-	return (count);
+		ft_putnbr_base2(va_arg(arg, unsigned int), "0123456789ABCDEF", count);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	int	i;
-	int	count;
-	va_list arg;
+	int		i;
+	int		count;
+	va_list	arg;
 
 	i = 0;
 	count = 0;
@@ -58,7 +54,7 @@ int	ft_printf(const char *str, ...)
 	{
 		if (str[i] == '%')
 		{
-			count += print_type(arg, str[i + 1]);
+			print_type(arg, str[i + 1], &count);
 			i += 2;
 		}
 		else
