@@ -45,6 +45,21 @@ int main() {
     return 0;
 }
 ```
+## Compiling
+To compile ft_printf, you'll first need to compile the libftprintf.a library using the make command:
+```bash
+make
+
+gcc -o main main.c -L. -lftprintf -I.
+```
+- gcc: the compiler command.
+- -o main: specifies the output file name as main.
+- main.c: the source file you want to compile.
+- -L.: specifies the directory where libftprintf.a is located. `.` means the current directory.
+- -lftprintf: links against libftprintf.a.
+- -I.: includes the current directory for header files.
+
+After running this command, you'll get an executable file named main that you can run to test ft_printf implementation.
 
 ## Contributions
 Contributions and improvements to ft_printf are welcome! If you find any bugs or have suggestions for enhancements, feel free to open an issue or submit a pull request.
